@@ -40,6 +40,7 @@ public class DemolitionReport {
                 fis.close();
                 setUp(configList);
 
+                TerminationSignalHandler.setup();
             }
         } catch (Exception e){
             e.printStackTrace();

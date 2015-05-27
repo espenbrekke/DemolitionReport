@@ -2,6 +2,7 @@ package org.demolitionreport.commands;
 
 import org.demolitionreport.Command;
 import org.demolitionreport.Report;
+import org.demolitionreport.TerminationSignalHandler;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
@@ -36,6 +37,8 @@ public class RuntimeCommand implements Command {
         if("starttime".equals(query)) return ""+bean.getStartTime();
         if("systemproperties".equals(query)) return ""+bean.getSystemProperties();
         if("uptime".equals(query)) return ""+bean.getUptime();
+
+        if("killcode".equals(query)) return ""+ TerminationSignalHandler.getExitCode();
 
         return "";
     }

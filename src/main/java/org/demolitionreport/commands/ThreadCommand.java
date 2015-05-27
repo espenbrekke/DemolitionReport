@@ -28,7 +28,7 @@ public class ThreadCommand implements Command {
 
     public String execute(Report report){
         ThreadMXBean bean=ManagementFactory.getThreadMXBean();
-        if("thread".equals(query)) return ""+bean.getThreadCount();
+        if("count".equals(query)) return ""+bean.getThreadCount();
         if("deamon".equals(query)) return ""+bean.getDaemonThreadCount();
         if("peak".equals(query)) return ""+bean.getPeakThreadCount();
         if("started".equals(query)) return ""+bean.getTotalStartedThreadCount();
