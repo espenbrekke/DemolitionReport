@@ -15,7 +15,6 @@ import java.util.stream.Stream;
 public class DemolitionReport {
     public static void main(String[] args){
         try {
-            Thread.sleep(3 * 60 * 1000);
         } catch (Exception e ){
 
         }
@@ -59,7 +58,8 @@ public class DemolitionReport {
     static void setUpReport(String[] reportDef, Queue<String> config){
         List<Command> commands=new ArrayList<Command>();
         while(!config.isEmpty()){
-            String[] commandDef=config.peek().trim().split("\\s+");
+            String commandSource=config.peek();
+            String[] commandDef=commandSource.trim().split("\\s+");
 
             //Stop eating lines if defining new report.
             if(commandDef.length>0 && commandDef[0].startsWith("Report") )
@@ -69,7 +69,7 @@ public class DemolitionReport {
             config.remove();
             if(commandDef.length>0 ){
                 try {
-                    Command command=CommandFactory.make(commandDef[0],commandDef);
+                    Command command=CommandFactory.make(commandDef[0],commandDef, commandSource);
                     commands.add(command);
                 } catch (Throwable e){
                     // Nonexistent. Skip this.
@@ -93,7 +93,9 @@ public class DemolitionReport {
             String defPart=reportDef[i];
             if("onShutdown".equals(defPart)){
                 typeOfReport=ShutdownReportScheduler.class;
-            } if("every".equals(defPart)){
+            } else if("onStartup".equals(defPart)){
+                typeOfReport=StartupScheduler.class;
+            } else if("every".equals(defPart)){
                 typeOfReport=PeriodicReportScheduler.class;
                 if(i+1<reportDef.length){
                     i++;
@@ -119,6 +121,9 @@ public class DemolitionReport {
             scheduler.init();
         } else if(typeOfReport==PeriodicReportScheduler.class){
             PeriodicReportScheduler scheduler=new PeriodicReportScheduler(interval, report);
+            scheduler.init();
+        } else if(typeOfReport==StartupScheduler.class){
+            StartupScheduler scheduler=new StartupScheduler(report);
             scheduler.init();
         }
 

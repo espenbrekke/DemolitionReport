@@ -11,19 +11,26 @@ import java.util.Arrays;
 public class ExecuteCommand implements Command {
 
     public static Command getExecuteCommand(String commandName, String[] command){
+        if("execute_withStatus".equals(commandName)){
+            final String[] strippedCommand= Arrays.copyOfRange(command, 1, command.length);
+            return new ExecuteCommand(strippedCommand,true);
+        }
         if("execute".equals(commandName)){
-            final String[] strippedCommand= Arrays.copyOfRange(command, 1, command.length - 1);
-            return new ExecuteCommand(strippedCommand);
+            final String[] strippedCommand= Arrays.copyOfRange(command, 1, command.length);
+            return new ExecuteCommand(strippedCommand, false);
         }
         return null;
     }
 
     final String[] strippedCommand;
-    ExecuteCommand(String[] strippedCommand){
+    final boolean outputStatus;
+    ExecuteCommand(String[] strippedCommand,boolean outputStatus){
         this.strippedCommand=strippedCommand;
+        this.outputStatus=outputStatus;
     }
 
     public String execute(Report report){
+        int status=-1;
         try {
             ProcessBuilder builder = new ProcessBuilder(strippedCommand);
             builder.redirectErrorStream(true);
@@ -37,14 +44,16 @@ public class ExecuteCommand implements Command {
                 report.report(line);
             }
             reader.close();
+            status=process.exitValue();
 
         } catch (Exception e){
             return e.getMessage();
         }
-        String retVal="executed";
-        for(String part:strippedCommand){
-            retVal+=" "+part;
+
+        if(outputStatus){
+            return ""+status;
+        }else {
+            return "";
         }
-        return "executed "+strippedCommand;
     }
 }

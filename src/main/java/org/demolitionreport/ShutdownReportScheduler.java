@@ -18,5 +18,4 @@ class ShutdownReportScheduler extends Thread {
     public void run(){
         report.run();
     }
-
 }

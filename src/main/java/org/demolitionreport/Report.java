@@ -23,7 +23,7 @@ public class Report{
     //Initialize the file, since the disk might get full
     public void init(){
         char[] spaceArray=new char[1024];
-        for(int i=0;i<spaceArray.length;i++) spaceArray[i]=' ';
+        for(int i=0;i<spaceArray.length;i++) spaceArray[i]='\n';
         try{
             workingFile.delete();
             PrintWriter writer=new PrintWriter(workingFile);
@@ -43,39 +43,41 @@ public class Report{
     public void run(){
         String logString="";
         for(Command command:logCommands){
-            logString=logString+","+command.execute(this);
+            logString=logString+command.execute(this);
         }
         report(logString);
     }
 
     private final ByteBuffer readBuffer=ByteBuffer.allocate(1024);
+    private final String seperator=
+            "--------------/\\----------------\n"+
+            "-------------/||\\---------------\n"+
+            "--------------||----------------\n"+
+            "---------- New data ------------\n"+
+            "--------------------------------\n"+
+            "---------- Old data-------------\n"+
+            "--------------||----------------\n"+
+            "-------------\\||/---------------\n"+
+            "--------------\\/----------------\n";
+
     public void report(String what){
-        byte[] whatBytes=(what+"\n").getBytes();
+        String whatWithNewline=(what+"\n");
+        int whatLength=whatWithNewline.length();
+        byte[] whatBytes=(whatWithNewline+seperator).getBytes();
         ByteBuffer whatBuffer=ByteBuffer.wrap(whatBytes);
         try{
             FileChannel fc = FileChannel.open(workingFile.toPath(),StandardOpenOption.DSYNC,  StandardOpenOption.READ, StandardOpenOption.WRITE);
             
             if(position +whatBytes.length>workingSize){
-                fc.position(position);
-                ByteBuffer nullBuffer=ByteBuffer.allocate((int)(workingSize- position));
-                fc.write(nullBuffer);
                 position =0;
             }
+
             fc.position(position);
             fc.write(whatBuffer);
-            position = position +whatBytes.length;
-            
-            fc.read(readBuffer);
-            String readString=new String(readBuffer.array());
-            int nextLine=readString.indexOf('\n');
-            if(nextLine>0){
-                fc.position(position);
-                byte[] spaceArray=new byte[nextLine-1];
-                for(int i=0;i<spaceArray.length;i++) spaceArray[i]=32;
-                ByteBuffer spaceBuffer=ByteBuffer.wrap(spaceArray);
-                fc.write(spaceBuffer);
-            }
+            position = position +whatLength;
+
             fc.close();
+
         } catch (IOException e){
             // Nowhere to log this.
         }
