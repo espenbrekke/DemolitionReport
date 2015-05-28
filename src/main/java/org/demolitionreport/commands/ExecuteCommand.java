@@ -39,9 +39,12 @@ public class ExecuteCommand implements Command {
             InputStream out=process.getInputStream();
             BufferedReader reader = new BufferedReader(new InputStreamReader(out));
 
-            String line;
-            while ((line = reader.readLine ()) != null) {
-                report.report(line);
+            boolean running=true;
+            while (running) {
+                String line = reader.readLine ();
+                if(line!=null) report.report(line);
+                else Thread.sleep(20);
+                if(line==null && !process.isAlive()) running=false;
             }
             reader.close();
             status=process.exitValue();
