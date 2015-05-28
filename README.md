@@ -59,77 +59,77 @@ execute_withStatus <command> <parameters>
   The output of this logging command is written to the report buffer. 
   The status value of the command is also written to the report buffer
   
-memory.heap.[max | used | free]
+memory.heap.[max | used | free]<br>
   Logs how mutch heap memory is used by the jvm. The options are max, used and free.
 
-memory.native.[max | used | free]
+memory.native.[max | used | free]<br>
   Logs how mutch native memory is used by the jvm. The options are max, used and free. 
   
-os.architecture
+os.architecture<br>
   Logs the architecture of the operating system.
   
-os.name
+os.name<br>
   Logs the name of the operating system.
 
-os.version
+os.version<br>
   Logs the version of the operating system.
 
-os.available_processors
+os.available_processors<br>
   Logs the number of available processors.
   
-os.system_load
+os.system_load<br>
   Logs the system load.
   
-thread.count
+thread.count<br>
   Logs the number of threads.
 
-thread.deamon
+thread.deamon<br>
   Logs the number of deamon threads.
 
-thread.peak
+thread.peak<br>
   Logs the peak number of threads.
   
-thread.started
+thread.started<br>
   Logs the number of threads started.
   
-runtime.boot_classpath
+runtime.boot_classpath<br>
   Logs the boot classpath.
 
-runtime.classpath
+runtime.classpath<br>
   Logs the classpath.
   
-runtime.inputarguments
+runtime.inputarguments<br>
   Logs the inputarguments.
   
-runtime.librarypath
+runtime.librarypath<br>
   Logs the librarypath.
   
-runtime.managentspeck_version
+runtime.managentspeck_version<br>
   Logs the managentspeck_version.
 
-runtime.name
+runtime.name<br>
   Logs the name.
   
-runtime.spec.vendor
+runtime.spec.vendor<br>
   Logs the spec.vendor.
   
-runtime.spec.version
+runtime.spec.version<br>
   Logs the spec.version.
 
-runtime.vm.name
+runtime.vm.name<br>
   Logs the vm.name.
 
-runtime.vm.version
+runtime.vm.version<br>
   Logs the vm.version.
   
-runtime.starttime
+runtime.starttime<br>
   Logs the starttime.
   
-runtime.systemproperties
+runtime.systemproperties<br>
   Logs the systemproperties.
   
-runtime.uptime
+runtime.uptime<br>
   Logs the uptime.
  
-runtime.killcode
+runtime.killcode<br>
   If the process is being killed this vil log the expected exit value.
