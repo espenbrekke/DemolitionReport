@@ -12,9 +12,12 @@ import java.lang.management.ThreadMXBean;
 
 public class ThreadCommand implements Command {
     public static Command getThreadCommand(String query){
+        try {
         if(query.startsWith("thread.count."))
             return new ThreadCommand(query.replaceFirst("thread.count.",""));
+        } catch (IllegalArgumentException e){
 
+        }
         return null;
     }
 

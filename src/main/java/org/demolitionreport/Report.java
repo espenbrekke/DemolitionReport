@@ -22,6 +22,7 @@ public class Report{
 
     //Initialize the file, since the disk might get full
     public void init(){
+        workingFile.getParentFile().mkdirs();
         char[] spaceArray=new char[1024];
         for(int i=0;i<spaceArray.length;i++) spaceArray[i]='\n';
         try{

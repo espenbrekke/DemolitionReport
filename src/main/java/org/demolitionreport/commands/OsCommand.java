@@ -11,9 +11,11 @@ import java.lang.management.ThreadMXBean;
 public class OsCommand implements Command {
 
     public static Command getOsCommand(String query){
-        if(query.startsWith("os."))
-            return new OsCommand(query.replaceFirst("os.",""));
-
+        try {
+            if(query.startsWith("os."))
+               return new OsCommand(query.replaceFirst("os.",""));
+        } catch (IllegalArgumentException e){
+        }
         return null;
     }
 

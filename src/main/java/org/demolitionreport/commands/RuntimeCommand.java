@@ -11,8 +11,12 @@ import java.lang.management.RuntimeMXBean;
 public class RuntimeCommand implements Command {
 
     public static Command getRuntimeCommand(String query){
-        if(query.startsWith("runtime."))
-            return new RuntimeCommand(query.replaceFirst("runtime.",""));
+        try {
+            if(query.startsWith("runtime."))
+             return new RuntimeCommand(query.replaceFirst("runtime.",""));
+        } catch (IllegalArgumentException e){
+
+        }
 
         return null;
     }

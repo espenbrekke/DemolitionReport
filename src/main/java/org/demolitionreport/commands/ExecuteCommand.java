@@ -11,13 +11,16 @@ import java.util.Arrays;
 public class ExecuteCommand implements Command {
 
     public static Command getExecuteCommand(String commandName, String[] command){
-        if("execute_withStatus".equals(commandName)){
-            final String[] strippedCommand= Arrays.copyOfRange(command, 1, command.length);
-            return new ExecuteCommand(strippedCommand,true);
-        }
-        if("execute".equals(commandName)){
-            final String[] strippedCommand= Arrays.copyOfRange(command, 1, command.length);
-            return new ExecuteCommand(strippedCommand, false);
+        try {
+            if("execute_withStatus".equals(commandName)){
+                final String[] strippedCommand= Arrays.copyOfRange(command, 1, command.length);
+                return new ExecuteCommand(strippedCommand,true);
+            }
+            if("execute".equals(commandName)){
+                final String[] strippedCommand= Arrays.copyOfRange(command, 1, command.length);
+                return new ExecuteCommand(strippedCommand, false);
+            }
+        } catch (IllegalArgumentException e){
         }
         return null;
     }

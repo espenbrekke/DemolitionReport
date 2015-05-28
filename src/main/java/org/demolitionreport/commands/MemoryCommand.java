@@ -9,11 +9,13 @@ import java.lang.management.MemoryUsage;
 
 public class MemoryCommand implements Command {
     public static Command getMemoryCommand(String query){
-        if(query.startsWith("memory.heap."))
-            return new MemoryCommand("heap", query.replaceFirst("memory.heap.",""));
-        else         if(query.startsWith("memory.native"))
-            return new MemoryCommand("native", query.replaceFirst("memory.native.",""));
-
+        try {
+            if(query.startsWith("memory.heap."))
+                return new MemoryCommand("heap", query.replaceFirst("memory.heap.",""));
+            else if(query.startsWith("memory.native"))
+                return new MemoryCommand("native", query.replaceFirst("memory.native.",""));
+        } catch (IllegalArgumentException e){
+        }
         return null;
     }
 
