@@ -130,4 +130,6 @@ runtime.systemproperties
   
 runtime.uptime
   Logs the uptime.
-  
+ 
+runtime.killcode
+  If the process is being killed this vil log the expected exit value.
