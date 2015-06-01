@@ -32,7 +32,8 @@ public class DemolitionReport {
                 lines.forEach(new Consumer<String>() {
                     @Override
                     public void accept(String s) {
-                        configList.add(s);
+
+                        configList.add(replaceVariables(s));
                     }
                 });
                 br.close();
@@ -45,6 +46,22 @@ public class DemolitionReport {
         } catch (Exception e){
             e.printStackTrace();
         }
+    }
+
+//    private static Pattern variablePattern = Pattern.compile("\\$\\{([^\\}]*)\\}");
+    private static String replaceVariables(String in){
+        Pattern variablePattern = Pattern.compile("\\$\\{([^\\}]*)\\}");
+        Matcher matcher=variablePattern.matcher(in);
+        String retVal=in;
+        while(matcher.find()) {
+            String matchedString=matcher.group(1);
+            String[] inArray=matchedString.split("\\s+");
+            Command command= CommandFactory.make(inArray[0], inArray, matchedString);
+
+            String result=command.execute(Report.nullReport);
+            retVal=retVal.replaceAll("\\$\\{"+matchedString+"\\}",result);
+        }
+        return retVal;
     }
 
     static void setUp(Queue<String> config){

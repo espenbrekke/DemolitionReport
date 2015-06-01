@@ -6,9 +6,12 @@ import java.io.PrintWriter;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Report{
+    public static Report nullReport=new Report(null,0,new ArrayList<Command>() );
+
     final File workingFile;
     final long workingSize;
     final List<Command> logCommands;
@@ -22,6 +25,7 @@ public class Report{
 
     //Initialize the file, since the disk might get full
     public void init(){
+        if(workingFile==null) return;
         workingFile.getParentFile().mkdirs();
         char[] spaceArray=new char[1024];
         for(int i=0;i<spaceArray.length;i++) spaceArray[i]='\n';
@@ -42,6 +46,7 @@ public class Report{
     }
 
     public void run(){
+        if(workingFile==null) return;
         String logString="";
         for(Command command:logCommands){
             logString=logString+command.execute(this);
@@ -62,6 +67,7 @@ public class Report{
             "--------------\\/----------------\n";
 
     public void report(String what){
+        if(workingFile==null) return;
         String whatWithNewline=(what+"\n");
         int whatLength=whatWithNewline.length();
         byte[] whatBytes=(whatWithNewline+seperator).getBytes();

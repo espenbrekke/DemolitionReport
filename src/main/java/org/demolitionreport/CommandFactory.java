@@ -21,7 +21,7 @@ public class CommandFactory{
         command= RuntimeCommand.getRuntimeCommand(commandName);
         if(command!=null) return command;
 
-        command= UtilsCommand.getUtilCommand(commandName);
+        command= UtilsCommand.getUtilCommand(commandName, commandDef);
         if(command!=null) return command;
 
         command= StringCommand.getStringCommand(def);

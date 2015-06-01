@@ -13,8 +13,8 @@ import java.lang.management.ThreadMXBean;
 public class ThreadCommand implements Command {
     public static Command getThreadCommand(String query){
         try {
-        if(query.startsWith("thread.count."))
-            return new ThreadCommand(query.replaceFirst("thread.count.",""));
+        if(query.startsWith("thread."))
+            return new ThreadCommand(query.replaceFirst("thread.",""));
         } catch (IllegalArgumentException e){
 
         }
@@ -23,7 +23,7 @@ public class ThreadCommand implements Command {
 
     final String query;
     ThreadCommand(String query){
-        if(!("thread".equals(query)||"deamon".equals(query)||"peak".equals(query)||"started".equals(query))){
+        if(!("count".equals(query)||"deamon".equals(query)||"peak".equals(query)||"started".equals(query))){
             throw new IllegalArgumentException("Unknown thread property "+query);
         }
         this.query=query;
